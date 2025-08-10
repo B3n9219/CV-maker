@@ -1,6 +1,6 @@
-import Form from "./Form.jsx"
-import Section from "./Section.jsx"
-import Input from "./Input.jsx"
+import Form from "./components/Form.jsx"
+import Section from "./components/Section.jsx"
+import Input from "./components/Input.jsx"
 
 
 import { useState } from 'react'
