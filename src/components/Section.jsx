@@ -1,3 +1,5 @@
+import "/src/styles/Section.css"
+
 export default function Section({title, children}) {
     return (
         <div className="section">
