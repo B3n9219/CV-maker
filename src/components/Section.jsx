@@ -1,5 +1,7 @@
 import "/src/styles/Section.css"
 import Input from "./Input.jsx"
+import Card from "./Card.jsx"
+
 import {useState} from 'react'
 
 
@@ -8,6 +10,7 @@ export default function Section({title, type="single", sectionData, setSectionDa
     const [inputData, setInputData] = useState({})
     function addInfo() {
         setSectionData(prevData => prevData? [...prevData, inputData] : [inputData])
+        console.log("Section data", sectionData)
         setInputData({});
     }
     function updateInputInfo(name, value) {
@@ -23,6 +26,11 @@ export default function Section({title, type="single", sectionData, setSectionDa
             {type==="multiple"? (
                 <button type="button" onClick={addInfo}>Add</button>
             ) : null}
+            {sectionData.length > 0? (
+                sectionData.map((item, index) => <Card key={index} info={item}/>)
+            ) : null}
+
         </div>
+
     )
 }
