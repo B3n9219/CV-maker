@@ -3,28 +3,45 @@ import Section from "./components/Section.jsx"
 import Input from "./components/Input.jsx"
 
 
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import './App.css'
 
 function App() {
-  const [formData, setFormData] = useState({
-      "personalDetails": null, "education": []
-  })
-  return (
-    <>
-      <Form>
-          <Section title="Personal Details" initialSectionData={formData.personalDetails} setFormData={() => setFormData}>
-              <Input name="First name" />
-              <Input name="Last name"/>
-          </Section>
-          <Section title="Education" initialSectionData={formData.education} setFormData={() => setFormData} type="multiple">
-              <Input name="School name"/>
-              <Input name="Title of study"/>
-              <Input name="Date of study"/>
-          </Section>
-      </Form>
-    </>
-  )
+    const [formData, setFormData] = useState({
+        "personalDetails": [], "education": []
+        })
+    function updateSection(sectionName, newValue) {
+        // Check if newValue is a function, and if so, use it with current state
+        setFormData(prev => {
+            const updatedSectionData = newValue(prev[sectionName]);
+            return { ...prev, [sectionName]: updatedSectionData };
+        });
+    }
+    useEffect(() => {
+        console.log("Form updated:", formData);
+    }, [formData]);
+
+    return (
+        <>
+            <Form>
+                <Section title="Personal Details" type="single" sectionData={formData.personalDetails}
+                       setSectionData={value => updateSection("personalDetails", value)}
+                       inputs = {[{name: "firstName", label: "First name", type:"text"},
+                                {name: "lastName", label: "Last name", type:"text"}]} >
+                </Section>
+                <Section title="Education" type="multiple" sectionData={formData.education}
+                         setSectionData={value => updateSection("education", value)}
+                         inputs = {
+                            [{name: "schoolName", label: "School name", type:"text"},
+                             {name: "studyTitle", label: "Title of study", type:"text"},
+                             {name: "studyDate", label: "Date of study", type:"text"}]} >
+                </Section>
+            </Form>
+            <div>
+                <p>{JSON.stringify(formData, null, 2)}</p>
+            </div>
+        </>
+    )
 }
 
 export default App

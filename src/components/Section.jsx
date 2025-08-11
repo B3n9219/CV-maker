@@ -1,39 +1,27 @@
 import "/src/styles/Section.css"
-import {Children, cloneElement, useState} from 'react'
+import Input from "./Input.jsx"
+import {useState} from 'react'
 
 
 
-export default function Section({title, type="single", initialSectionData, setFormData, children}) {
-    const [sectionData, setSectionData] = useState(initialSectionData)
-    console.log(sectionData)
+export default function Section({title, type="single", sectionData, setSectionData, inputs}) {
+    const [inputData, setInputData] = useState({})
     function addInfo() {
-        if (type==="multiple") {
-            setSectionData()
-        }
-        setFormData = [...setFormData, ...sectionData]
+        setSectionData(prevData => prevData? [...prevData, inputData] : [inputData])
+        setInputData({});
     }
-    const handleInputChange = (name, value) => {
-        console.log('changed', e.target.name, e.target.value);
-        setSectionData(prev => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
-
-    // Clone each child Input, adding value and onChange
-    const childrenWithProps = Children.map(children, child => {
-        // Only clone if it has a "name" prop (assume Input components)
-        if (!child.props.name) {
-            return child
-        }
-        return cloneElement(child, {onChange: e => handleInputChange(e.target.name, e.target.value)});
-    });
+    function updateInputInfo(name, value) {
+        setInputData({...inputData, [name]: value})
+    }
     return (
         <div className="section">
             <h2>{title}</h2>
-            {childrenWithProps}
+            {inputs.map(input =>
+                <Input key={input.name} name={input.name} label={input.label} type={input.type} value={inputData[input.name] || ""}
+                       setValue={value => updateInputInfo(input.name, value)}/>
+            )}
             {type==="multiple"? (
-                <button onClick={() => addInfo()}>Add</button>
+                <button type="button" onClick={addInfo}>Add</button>
             ) : null}
         </div>
     )
