@@ -2,13 +2,19 @@ import "/src/styles/Section.css"
 import Input from "./Input.jsx"
 import Card from "./Card.jsx"
 
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 
 
 
 export default function Section({title, type="single", sectionData, setSectionData, inputs}) {
-    const [inputData, setInputData] = useState({})
+    const [inputData, setInputData] = useState(type==="single"? sectionData: {})
     const [editingIndex, setEditingIndex] = useState(null)
+    useEffect(() => {
+        if (type === "single") {
+            // For single type, update sectionData whenever inputData changes
+            setSectionData(inputData);
+        }
+    }, [inputData]);
     function addInfo() {
         setSectionData(prevData => prevData? [...prevData, inputData] : [inputData])
         console.log("Section data", sectionData)

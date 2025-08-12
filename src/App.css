@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -7,4 +11,6 @@ body {
 #root {
   display: flex;
   flex-direction: column;
+  width: 30vw;
+  gap: 2rem;
 }
