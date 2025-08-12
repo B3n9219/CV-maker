@@ -1,9 +1,4 @@
 export default function Display({data, hidden}) {
-    const formattedData = {}
-    function formatData () {
-
-    }
-    formatData()
     return (
         <div className="display">
             {!hidden? (
