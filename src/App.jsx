@@ -12,7 +12,6 @@ function App() {
         "personalDetails": [], "education": []
         })
     function updateSection(sectionName, newValue) {
-        // Check if newValue is a function, and if so, use it with current state
         setFormData(prev => {
             const updatedSectionData = newValue(prev[sectionName]);
             return { ...prev, [sectionName]: updatedSectionData };
@@ -29,7 +28,7 @@ function App() {
 
     return (
         <>
-            <Form submit={submitForm}>
+            <Form editing={displayHidden} submit={submitForm} edit={() => setDisplayHidden(true)}>
                 <Section title="Personal Details" type="single" sectionData={formData.personalDetails}
                        setSectionData={value => updateSection("personalDetails", value)}
                        inputs = {[{name: "firstName", label: "First name", type:"text"},
